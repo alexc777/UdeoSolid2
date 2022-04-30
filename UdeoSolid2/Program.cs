@@ -147,15 +147,24 @@ namespace UdeoSolid2
             Product[] products = { apple, tree, house };
 
             var pf = new ProductFilter();
+            Console.WriteLine("************************************");
             Console.WriteLine("Green Productos (old)");
+            Console.WriteLine("************************************");
+            Console.WriteLine("\n");
             foreach (var p in pf.FilterByColor(products, Color.Green))
                 Console.WriteLine($" -{p.Name} is green");
+            Console.WriteLine("\n");
+            Console.WriteLine("************************************");
 
             Console.WriteLine("\n");
             Console.WriteLine("************************************");
             Console.WriteLine("Large Productos (old)");
+            Console.WriteLine("************************************");
+            Console.WriteLine("\n");
             foreach (var p in pf.FilterBySize(products, Size.Large))
                 Console.WriteLine($" -{p.Name} is large");
+            Console.WriteLine("\n");
+            Console.WriteLine("************************************");
 
             // hasta este punto arriba, solo hemos implementado el principio de responsabilidad unica, falta open close
             // osea que tu función pueda crecer en base a funcionalidades, pero no se modifique su enfoque
@@ -169,23 +178,48 @@ namespace UdeoSolid2
             Console.WriteLine("\n");
             Console.WriteLine("*****************************************");
             Console.WriteLine("Products ColorSpecification Green (New)");
+            Console.WriteLine("*****************************************");
+            Console.WriteLine("\n");
             foreach (var p in bfilter.Filter(products, pfe))
-                Console.WriteLine($" -{p.Name} is Green");            
-            
+                Console.WriteLine($" -{p.Name} is Green");
+            Console.WriteLine("\n");
+            Console.WriteLine("************************************");
+
             var pfs = new SizeSpecification(Size.Small);
             Console.WriteLine("\n");
             Console.WriteLine("*****************************************");
             Console.WriteLine("Products SizeSpecification Small (New)");
+            Console.WriteLine("*****************************************");
+            Console.WriteLine("\n");
             foreach (var p in bfilter.Filter(products, pfs))
                 Console.WriteLine($" -{p.Name} is Small");
+            Console.WriteLine("\n");
+            Console.WriteLine("************************************");
+
+            var pfand = new AndSpecification<Product>(pfe, pfs);
+            Console.WriteLine("\n");
+            Console.WriteLine("***********************************************************************");
+            Console.WriteLine("Products AndSpecification using existen class instance pfe, pfs  (New)");
+            Console.WriteLine("***********************************************************************");
+            Console.WriteLine("\n");
+            foreach (var p in bfilter.Filter(products, pfand))
+                Console.WriteLine($" -{p.Name} is Green and Small");
+            Console.WriteLine("\n");
+            Console.WriteLine("***********************************************************************");
 
 
-            //var pfand = new AndSpecification(Color.Blue, Size.Medium);
-            /*Console.WriteLine("\n");
-            Console.WriteLine("*****************************************");
-            Console.WriteLine("Products AndSpecification (New)");
-            foreach (var p in bfilter.Filter(products, pfs))
-                Console.WriteLine($" -{p.Name} is Small");*/
+            var pfColor = new ColorSpecification(Color.Blue);
+            var pfSize = new SizeSpecification(Size.Large);
+            var pfandCustom = new AndSpecification<Product>(pfColor, pfSize);
+            Console.WriteLine("\n");
+            Console.WriteLine("*************************************************************************");
+            Console.WriteLine("Products AndSpecification using new instance class pfColor, pfSize  (New)");
+            Console.WriteLine("*************************************************************************");
+            Console.WriteLine("\n");
+            foreach (var p in bfilter.Filter(products, pfandCustom))
+                Console.WriteLine($" -{p.Name} is Blu and Large");
+            Console.WriteLine("\n");
+            Console.WriteLine("***********************************************************************");
 
 
             Console.ReadLine();
